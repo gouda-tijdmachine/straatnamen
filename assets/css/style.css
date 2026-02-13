@@ -130,7 +130,7 @@ section {
 #map {
   height: 70vh;
   width: 100vw;
-  margin-top: 8vh
+  margin-top: 6vh
 }
 
 .gallery {
@@ -520,6 +520,7 @@ div.openseadragon-container>div>div {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

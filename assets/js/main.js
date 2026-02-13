@@ -6,8 +6,8 @@ let bHeeftMeerAfbeeldingen = true;
 
 const aantalAfbeeldingen = 32;
 const timeout = 120 * 1000; // 120 seconds
-//const baseAPI = "https://www.goudatijdmachine.nl/api-straatnamen";
-const baseAPI = "https://api-straatnamen.goudatijdmachine.nl";
+const baseAPI = "https://www.goudatijdmachine.nl/api-straatnamen";
+//const baseAPI = "https://api-straatnamen.goudatijdmachine.nl";
 
 // Initialize map view
 var straten = [];

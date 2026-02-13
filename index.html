@@ -1,80 +1,92 @@
 <!DOCTYPE html>
 <html lang="nl-NL">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">	
-        <title>Goudse straten · Gouda Tijdmachine</title>
-        <link rel="icon" href="assets/images/gtm-logo-2025-100x100.png" sizes="32x32" />
-        <link rel="icon" href="assets/images/gtm-logo-2025-300x300.png" sizes="192x192" />
-        <link rel="apple-touch-icon" href="assets/images/gtm-logo-2025-300x300.png" />
-        <meta name="msapplication-TileImage" content="assets/images/gtm-logo-2025-300x300.png" />
-        <link href="assets/css/leaflet-1.8.0.css" rel="stylesheet" />
-        <link media="all" href="assets/css/style.css?v=15" rel="stylesheet">
-    </head>
 
-    <body class="index">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Goudse straten · Gouda Tijdmachine</title>
+    <link rel="icon" href="assets/images/gtm-logo-2025-100x100.png" sizes="32x32" />
+    <link rel="icon" href="assets/images/gtm-logo-2025-300x300.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="assets/images/gtm-logo-2025-300x300.png" />
+    <meta name="msapplication-TileImage" content="assets/images/gtm-logo-2025-300x300.png" />
+    <link href="assets/css/leaflet-1.8.0.css" rel="stylesheet" />
+    <link media="all" href="assets/css/style.css?v=16" rel="stylesheet">
+</head>
 
-        <!-- Map View -->
-        <div id="map-view">
-            <header>
-                <div class="header-title">
-                    <a href="https://www.goudatijdmachine.nl/" rel="home"><img src="assets/images/gtm-logo.svg" alt="Gouda Tijdmachine" width="70" height="70"></a> <span class="header-logo">Gouda Tijdmachine</span>
-                </div>
-                <p class="search-container"><input id="input" autocomplete="off" style="width:calc(100% - 64px)" placeholder="Voer hier een straatnaam in (bijv. Hoge Gouwe) en klik op de gewenste straat of klik hieronder op een straatlijn" class="search-input" type="search" autofocus />
-            <img id="locate-button" title="Toon straten op basis van locatie" src="assets/images/locate.svg"></p>
-            </header>
+<body class="index">
 
-            <ul id="suggestions"></ul>
-            <div id="map">&nbsp;</div>
-        </div>
+    <!-- Map View -->
+    <div id="map-view">
+        <header>
+            <div class="header-title">
+                <a href="https://www.goudatijdmachine.nl/" rel="home"><img src="assets/images/gtm-logo.svg"
+                        alt="Gouda Tijdmachine" width="70" height="70"></a> <span class="header-logo">Gouda
+                    Tijdmachine</span>
+            </div>
+            <p class="search-container"><input id="input" autocomplete="off" style="width:calc(100% - 64px)"
+                    placeholder="Voer hier een straatnaam in (bijv. Hoge Gouwe) en klik op de gewenste straat of klik hieronder op een straatlijn"
+                    class="search-input" type="search" autofocus />
+                <img id="locate-button" title="Toon straten op basis van locatie" src="assets/images/locate.svg">
+            </p>
+        </header>
 
-        <!-- Detail View -->
-        <div id="detail-view" class="hidden">
-            <header>
-                <a class='button' href="#" id="back-button">Kies een andere straat</a>
-                <div style="margin:0.3em 0 0.5em 0.1em;color:white;font-size:3em;font-weight:500">
-                    <a href="https://www.goudatijdmachine.nl/" rel="home"><img src="assets/images/gtm-logo.svg" alt="Gouda Tijdmachine" width="75" height="75"></a> <span style="font-size:0.9em;vertical-align: super;display:inline-block;margin-top:16px">Gouda Tijdmachine</span>
-                </div>
-            </header>
+        <ul id="suggestions"></ul>
+        <div id="map">&nbsp;</div>
+    </div>
 
-            <main id="result">
-                <h1 id="straat" data-identifier>
-                    <span id="naam"></span>
-                    <span id="genoemd_naar"></span>
-                </h1>
-                <section>
+    <!-- Detail View -->
+    <div id="detail-view" class="hidden">
+        <header>
+            <a class='button' href="#" id="back-button">Kies een andere straat</a>
+            <div style="margin:0.3em 0 0.5em 0.1em;color:white;font-size:3em;font-weight:500">
+                <a href="https://www.goudatijdmachine.nl/" rel="home"><img src="assets/images/gtm-logo.svg"
+                        alt="Gouda Tijdmachine" width="75" height="75"></a> <span
+                    style="font-size:0.9em;vertical-align: super;display:inline-block;margin-top:16px">Gouda
+                    Tijdmachine</span>
+            </div>
+        </header>
+
+        <main id="result">
+            <h1 id="straat" data-identifier>
+                <span id="naam"></span>
+                <span id="genoemd_naar"></span>
+            </h1>
+            <section>
                 <div id="fotos" class="gallery"></div>
-                </section>
-            </main>
+            </section>
+        </main>
 
-            <main id="noresult">
-                <h2>O jee, van deze straat zijn er geen foto's of aan deze straat hebben vrijwilligers nog geen foto's gekoppeld ...</h2>
-            </main>
+        <main id="noresult">
+            <h2>O jee, van deze straat zijn er geen foto's of aan deze straat hebben vrijwilligers nog geen foto's
+                gekoppeld ...</h2>
+        </main>
 
-            <footer>
-                <h3><a href="/help-je-mee/">Ook geïnteresseerd in de bebouwing en bewoning van Gouda? Help&nbsp;mee&nbsp;aan&nbsp;de&nbsp;Gouda&nbsp;Tijdmachine!</a></h3>
-                <a class='button' href="#" id="back-button-footer">Kies een andere straat</a>
-            </footer>
+        <footer>
+            <h3><a href="/help-je-mee/">Ook geïnteresseerd in de bebouwing en bewoning van Gouda?
+                    Help&nbsp;mee&nbsp;aan&nbsp;de&nbsp;Gouda&nbsp;Tijdmachine!</a></h3>
+            <a class='button' href="#" id="back-button-footer">Kies een andere straat</a>
+        </footer>
 
-            <!-- IIIF Image Lightbox Modal -->
-            <div id="iiif-modal" class="iiif-modal hidden">
-                <div class="iiif-modal-overlay"></div>
-                <div class="iiif-modal-content">
-                    <button id="iiif-close-btn" class="iiif-close-btn" aria-label="Sluiten">×</button>
-                    <button id="iiif-origin-btn" class="iiif-origin-btn" aria-label="Bekijk origineel">
-                        <span id="vervaardiger"></span>
-                        <img src="assets/images/external-link.svg" alt="Bekijk bron">
-                        Bekijk bron
-                    </button>
-                    <div id="openseadragon-viewer"></div>
-                </div>
+        <!-- IIIF Image Lightbox Modal -->
+        <div id="iiif-modal" class="iiif-modal hidden">
+            <div class="iiif-modal-overlay"></div>
+            <div class="iiif-modal-content">
+                <button id="iiif-close-btn" class="iiif-close-btn" aria-label="Sluiten">×</button>
+                <button id="iiif-origin-btn" class="iiif-origin-btn" aria-label="Bekijk origineel">
+                    <span id="vervaardiger"></span>
+                    <img src="assets/images/external-link.svg" alt="Bekijk bron">
+                    Bekijk bron
+                </button>
+                <div id="openseadragon-viewer"></div>
             </div>
         </div>
+    </div>
 
     <script src="assets/js/leaflet-1.8.0.js"></script>
     <script src="assets/js/openseadragon.min.js"></script>
-    <script src="assets/js/geo.js?v=15"></script>
-    <script src="assets/js/main.js?v=15"></script>
+    <script src="assets/js/geo.js?v=16"></script>
+    <script src="assets/js/main.js?v=16"></script>
 
-    </body>
+</body>
+
 </html>
