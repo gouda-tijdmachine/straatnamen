@@ -19,6 +19,8 @@ let geoJSONurl = `${baseAPI}/straatnamen`;
 let inputField;
 let ulField;
 
+const locateButton = document.getElementById('locate-button');
+
 function onEachFeature(feature, layer, groupLayer) {
     straten[feature.properties.naam] = feature.properties.identifier;
     stratenAlt[feature.properties.identifier] = feature.properties.naam_alt;
@@ -495,7 +497,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Handle locate button click
-    const locateButton = document.getElementById('locate-button');
     locateButton.addEventListener('click', function () {
         if ('geolocation' in navigator) {
             // Add spinning class
