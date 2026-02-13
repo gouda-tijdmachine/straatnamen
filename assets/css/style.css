@@ -1,0 +1,526 @@
+/* zie https://www.goudatijdmachine.nl/over-ons/huisstijl-handboek/ */
+
+:root {
+  --gtm-blauw: #3891b1;
+  --gtm-rood: #d22c25;
+  --gtm-bruin: #533b3b;
+  --gtm-grijs: #ebebeb;
+  --gtm-zwart: #111111;
+  --gtm-wit: #ffffff;
+}
+
+/* Utility classes */
+.hidden {
+  display: none !important;
+}
+
+/* Suggestions list */
+#suggestions {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  width: 60vw;
+  padding: 0 10px;
+  color: var(--gtm-wit);
+  cursor: pointer;
+  background: var(--gtm-bruin);
+  margin-top: -20px;
+  list-style-type: none;
+  font-size: 2em;
+  line-height: 1.2em;
+}
+
+#suggestions li {
+  text-decoration: underline;
+  padding: 10px;
+}
+
+.leaflet-control-layers-expanded {
+  padding: 5px 3px 5px 3px !important;
+  color: var(--gtm-wit) !important;
+  background-color: var(--gtm-blauw) !important;
+  font-size: 2em !important;
+}
+
+.leaflet-control-layers-expanded {
+  width: 13em !important;
+}
+
+/*.leaflet-right .leaflet-control {
+  margin-right: -175px !important;
+}*/
+
+.street-tooltip {
+  background-color: var(--gtm-blauw) !important;
+  color: var(--gtm-wit) !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  font-size: 1.1em !important;
+  font-weight: 400 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+  opacity: 0.95 !important;
+}
+
+.street-tooltip::before {
+  border: none !important;
+}
+
+/* Body layout */
+body {
+  background-color: var(--gtm-blauw);
+  margin: 0;
+  padding: 20px 0;
+  display: block;
+  color: var(--gtm-zwart);
+  font: normal normal 300 16px/130% "Source Sans Pro", sans-serif;
+  overflow-x: hidden;
+}
+
+body.info {
+  margin: 0 1em;
+  padding-bottom: 6em;
+}
+
+body.index {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+/* Header */
+#header {
+  height: 30vh;
+}
+
+.header-title {
+  margin: 0.6em 0 0.8em 0;
+  color: var(--gtm-wit);
+  font-size: 3em;
+  font-weight: 500;
+  text-align: center;
+}
+
+.header-logo {
+  vertical-align: super;
+}
+
+#noresult {
+  display: none
+}
+
+section {
+  margin: 0 -20px;
+  background-color: var(--gtm-bruin);
+  padding: 1em;
+}
+
+/* Search input */
+.search-container {
+  margin: 2em 4em;
+}
+
+.search-input {
+  width: 100%;
+  font-size: 1.5em;
+  padding: 10px;
+}
+
+/* Map */
+#map {
+  height: 70vh;
+  width: 100vw;
+  margin-top: 8vh
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.gallery div::before {
+  content: none;
+  display: none
+}
+
+.gallery img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 1px 1px 4px white;
+}
+
+.button {
+  background-color: var(--gtm-bruin) !important;
+  margin-top: 1.5em;
+  color: var(--gtm-wit) !important;
+  text-decoration: none !important;
+  padding: 10px 15px !important;
+  border-radius: 5px !important;
+  font-size: 1.2em;
+  float: right;
+}
+
+h1,
+h2,
+h3 {
+  padding: 1.5em;
+  font-size: 1.5em;
+  line-height: 1.25em;
+}
+
+h1 {
+  background-color: var(--gtm-wit);
+  margin: 0 -1em;
+  color: var(--gtm-blauw);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+#naam a {
+  color: var(--gtm-blauw);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+h2 {
+  background-color: var(--gtm-rood);
+  color: var(--gtm-wit);
+  margin: 0 -1em;
+  text-align: center text-wrap-style: balance;
+}
+
+h3 {
+  background-color: var(--gtm-grijs);
+  margin: 0 -1em;
+  text-align: center;
+  text-wrap-style: balance;
+}
+
+h3 a {
+  text-decoration: none;
+  color: var(--gtm-blauw);
+}
+
+h3 a:hover {
+  text-decoration: underline;
+}
+
+.caret {
+  display: inline-block;
+  transition: transform 0.2s;
+  color: var(--gtm-blauw);
+  font-size: 1em;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.caret:hover {
+  color: var(--gtm-bruin);
+  transform: scale(1.2);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--gtm-blauw);
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* Alternative names popup */
+.alt-names-info {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.4em;
+  font-size: 0.7em;
+  color: var(--gtm-blauw);
+  cursor: help;
+  vertical-align: super;
+  transition: transform 0.2s ease;
+}
+
+.alt-names-popup {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+  background-color: var(--gtm-bruin);
+  color: var(--gtm-wit);
+  padding: 0.8em 1em;
+  border-radius: 8px;
+  font-size: 1.25rem;
+  white-space: normal;
+  width: 60vw;
+  max-width: 80vw;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  line-height: 1.4;
+  font-weight: 100;
+}
+
+.alt-names-popup::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border: 8px solid transparent;
+  border-right-color: var(--gtm-bruin);
+}
+
+.alt-names-info:hover .alt-names-popup {
+  visibility: visible;
+  opacity: 1;
+}
+
+#genoemd_naar {
+  font-weight: 100;
+  display: none;
+}
+
+.text-content,
+#genoemd_naar {
+  color: var(--gtm-zwart);
+}
+
+
+#genoemd_naar::before {
+  content: "»";
+  padding-right: 0.3em;
+}
+
+/* IIIF Modal Lightbox */
+.iiif-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iiif-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.92);
+  cursor: pointer;
+}
+
+.iiif-modal-content {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--gtm-wit);
+  overflow: hidden;
+}
+
+#openseadragon-viewer {
+  width: 100%;
+  height: 100%;
+}
+
+/* Close Button */
+.iiif-close-btn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--gtm-blauw);
+  color: var(--gtm-wit);
+  border: none;
+  /* border-radius: 50%;*/
+  font-size: 2.5em;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10001;
+  transition: background-color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iiif-close-btn:hover {
+  background-color: var(--gtm-rood);
+}
+
+
+/* Origin Link Button */
+.iiif-origin-btn {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  padding: 12px 20px;
+  background-color: var(--gtm-bruin);
+  color: var(--gtm-wit);
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iiif-origin-btn svg {
+  flex-shrink: 0;
+}
+
+/* Animation */
+.iiif-modal:not(.hidden) {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .iiif-modal-content {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .iiif-close-btn {
+    top: 15px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+    font-size: 2em;
+  }
+
+  .iiif-origin-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 16px;
+    font-size: 1em;
+  }
+}
+
+/* OpenSeadragon Zoom Control Customization */
+
+/* Zoom control container */
+.openseadragon-container .openseadragon-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+/* Zoom button base styling - larger size */
+.openseadragon-container .openseadragon-button {
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px !important;
+  min-height: 60px !important;
+  background-color: var(--gtm-blauw) !important;
+  border: 2px solid var(--gtm-wit) !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  margin: 8px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Hover state */
+.openseadragon-container .openseadragon-button:hover {
+  background-color: var(--gtm-rood) !important;
+  transform: scale(1.1) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Active/pressed state */
+.openseadragon-container .openseadragon-button:active {
+  transform: scale(0.95) !important;
+}
+
+/* Button icons - make them larger and white */
+.openseadragon-container .openseadragon-button img {
+  filter: brightness(0) invert(1) !important;
+  width: 32px !important;
+  height: 32px !important;
+  opacity: 1 !important;
+}
+
+/* Specific zoom button targeting */
+.openseadragon-container .openseadragon-zoom-in,
+.openseadragon-container .openseadragon-zoom-out {
+  background-color: var(--gtm-blauw) !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .openseadragon-container .openseadragon-controls {
+    top: 15px;
+    left: 15px;
+  }
+
+  .openseadragon-container .openseadragon-button {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px !important;
+    min-height: 50px !important;
+    margin: 6px !important;
+  }
+
+  .openseadragon-container .openseadragon-button img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+div.openseadragon-container div div div div {
+  zoom: 1.4;
+  margin-right: 10px !important;
+}
+
+div.openseadragon-container>div>div {
+  margin: 25px !important;
+}
+
+#locate-button {
+  width: 48px;
+  float: right;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#locate-button.locating {
+  opacity: 0.7;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
