@@ -502,6 +502,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // Add spinning class
             locateButton.classList.add('locating');
 
+            // Options for faster geolocation on mobile
+            const options = {
+                enableHighAccuracy: false,  // Use network/WiFi instead of GPS for faster results
+                timeout: 10000,              // 10 second timeout
+                maximumAge: 30000            // Accept cached position up to 30 seconds old
+            };
+
             navigator.geolocation.getCurrentPosition(function (position) {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
@@ -521,7 +528,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error getting location:', error.message);
                 // Remove spinning class on error
                 locateButton.classList.remove('locating');
-            });
+            }, options);
         } else {
             console.error('Geolocation is not supported by this browser.');
         }
