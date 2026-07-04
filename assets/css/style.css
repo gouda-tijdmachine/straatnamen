@@ -154,6 +154,33 @@ section {
   box-shadow: 1px 1px 4px white;
 }
 
+/* Kaarttegel in de galerij, even groot als een fototegel */
+.map-tile {
+  position: relative;
+}
+
+#street-map-tile {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 4px white;
+}
+
+/* Fullscreen kaartweergave in de modal */
+#street-map-full {
+  width: 100%;
+  height: 100%;
+}
+
+/* Straatnaam-caption rechtsonder in de kaartmodal */
+.map-caption {
+  cursor: default;
+}
+
+.map-caption:empty {
+  display: none;
+}
+
 .button {
   background-color: var(--gtm-bruin) !important;
   margin-top: 1.5em;

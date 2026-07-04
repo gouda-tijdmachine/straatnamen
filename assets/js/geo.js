@@ -113,3 +113,20 @@ var overlayMaps = {
 };
 
 L.control.layers(baseMap, overlayMaps).addTo(map);
+
+// Maakt verse tile-layer-instanties aan voor een extra (straat)kaart;
+// Leaflet-layers kunnen niet op twee kaarten tegelijk staan.
+function createStreetTileLayers(type) {
+	var layers = [
+		L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={token}', {
+			maxZoom: MAXZOOM,
+			attribution: '&copy; <a href="https://www.mapbox.com/feedback/">Mapbox</a>',
+			id: 'goudatijdmachine/cmjeyi1ep004d01sde7qh8cac',
+			token: 'pk.eyJ1IjoiZ291ZGF0aWpkbWFjaGluZSIsImEiOiJja3Q2N2RmcnkwZnBlMm9wZXhldWs4ZXFoIn0.HuPaUE1cVcyRIxrfAXPkIg'
+		})
+	];
+	if (type === 'verdwenen') {
+		layers.push(L.tileLayer('https://tileserver.huc.knaw.nl/{z}/{x}/{y}', { minZoom: 10, maxZoom: 21, attribution: 'KNAW/HUC' }));
+	}
+	return layers;
+}

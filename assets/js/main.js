@@ -192,7 +192,10 @@ function fetchAfbeeldingen(straatidentifier) {
 
                 if (afbeeldingenOffset === 0) {
                     // Only show no result if this is the first load
-                    gallery.style.display = 'none';
+                    // Galerij zichtbaar houden als er een kaarttegel in staat
+                    if (!gallery.querySelector('.map-tile')) {
+                        gallery.style.display = 'none';
+                    }
                     noResult.style.display = 'block';
                 }
             }
@@ -205,7 +208,9 @@ function fetchAfbeeldingen(straatidentifier) {
         })
         .catch(error => {
             if (afbeeldingenOffset === 0) {
-                gallery.style.display = 'none';
+                if (!gallery.querySelector('.map-tile')) {
+                    gallery.style.display = 'none';
+                }
                 noResult.style.display = 'block';
             }
             console.error("Fetch error:", error);
@@ -229,6 +234,15 @@ function fetchStraatnamen(straatidentifier) {
     const noResult = document.getElementById('noresult');
     const genoemdNaarElement = document.getElementById('genoemd_naar');
     genoemdNaarElement.style.display = 'none';
+
+    // Oude kaarttegel opschonen voordat de galerij wordt geleegd
+    if (streetTileMap) {
+        streetTileMap.remove();
+        streetTileMap = null;
+    }
+    currentStreetGeometry = null;
+    currentStreetType = null;
+    currentStreetName = null;
 
     gallery.innerHTML = '';
     nameElement.innerHTML = '';
@@ -293,6 +307,28 @@ function fetchStraatnamen(straatidentifier) {
                 }
             } else {
                 genoemdNaarElement.style.display = 'none';
+            }
+
+            // Kaarttegel als eerste "fototegel" toevoegen
+            if (data.geometry && data.geometry.coordinates && data.geometry.coordinates.length) {
+                currentStreetGeometry = data.geometry;
+                currentStreetType = data.type;
+                currentStreetName = data.naam;
+
+                const tile = document.createElement('div');
+                tile.className = 'gallery-item map-tile';
+                tile.style.cursor = 'pointer';
+
+                const mapDiv = document.createElement('div');
+                mapDiv.id = 'street-map-tile';
+                tile.appendChild(mapDiv);
+
+                tile.addEventListener('click', openMapModal);
+
+                gallery.insertBefore(tile, gallery.firstChild);
+                gallery.style.display = 'grid';
+
+                streetTileMap = buildStreetMap('street-map-tile', data.geometry, data.type, { interactive: false });
             }
 
             return data;
@@ -380,6 +416,97 @@ function resetTimer() {
     timer = setTimeout(() => {
         window.location.hash = '';
     }, timeout);
+}
+
+// Street map tile & fullscreen map modal
+let streetTileMap = null;
+let mapModalMap = null;
+let currentStreetGeometry = null;
+let currentStreetType = null;
+let currentStreetName = null;
+
+function buildStreetMap(containerId, geometry, type, opts) {
+    const interactive = opts && opts.interactive;
+
+    const gtmBlauw = getComputedStyle(document.documentElement)
+        .getPropertyValue('--gtm-blauw').trim();
+    const gtmBruin = getComputedStyle(document.documentElement)
+        .getPropertyValue('--gtm-bruin').trim();
+
+    const streetMap = L.map(containerId, {
+        zoomSnap: 0,
+        attributionControl: false,
+        zoomControl: interactive,
+        dragging: interactive,
+        scrollWheelZoom: interactive,
+        doubleClickZoom: interactive,
+        boxZoom: interactive,
+        keyboard: interactive,
+        touchZoom: interactive,
+        tap: interactive,
+        maxZoom: 21,
+        layers: createStreetTileLayers(type)
+    });
+
+    if (interactive) {
+        L.control.attribution({ prefix: '' }).addTo(streetMap);
+    }
+
+    const streetLayer = L.geoJSON(geometry, {
+        style: {
+            weight: 4,
+            color: type === 'heden' ? gtmBlauw : gtmBruin
+        }
+    }).addTo(streetMap);
+
+    // Tegel: ingezoomd op de bounding box van de straat; fullscreen: zoomniveau 15
+    function positionMap() {
+        if (interactive) {
+            streetMap.setView(streetLayer.getBounds().getCenter(), 15);
+        } else {
+            streetMap.fitBounds(streetLayer.getBounds(), { padding: [20, 20] });
+        }
+    }
+    positionMap();
+
+    // Zorg voor correcte rendering nadat de container zichtbaar/gepositioneerd is
+    setTimeout(() => {
+        streetMap.invalidateSize();
+        positionMap();
+    }, 100);
+
+    return streetMap;
+}
+
+function openMapModal() {
+    const modal = document.getElementById('map-modal');
+    const caption = document.getElementById('map-caption');
+
+    if (!currentStreetGeometry) return;
+
+    caption.innerText = currentStreetName || '';
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    if (mapModalMap) {
+        mapModalMap.remove();
+        mapModalMap = null;
+    }
+
+    mapModalMap = buildStreetMap('street-map-full', currentStreetGeometry, currentStreetType, { interactive: true });
+}
+
+function closeMapModal() {
+    const modal = document.getElementById('map-modal');
+
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+
+    if (mapModalMap) {
+        mapModalMap.remove();
+        mapModalMap = null;
+    }
 }
 
 // IIIF Modal & OpenSeadragon Integration
@@ -473,12 +600,23 @@ document.addEventListener('DOMContentLoaded', function () {
     closeBtn.addEventListener('click', closeIIIFModal);
     overlay.addEventListener('click', closeIIIFModal);
 
+    // Map modal handlers
+    const mapCloseBtn = document.getElementById('map-close-btn');
+    const mapOverlay = document.querySelector('#map-modal .iiif-modal-overlay');
+
+    mapCloseBtn.addEventListener('click', closeMapModal);
+    mapOverlay.addEventListener('click', closeMapModal);
+
     // ESC key to close modal
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             const modal = document.getElementById('iiif-modal');
             if (!modal.classList.contains('hidden')) {
                 closeIIIFModal();
+            }
+            const mapModal = document.getElementById('map-modal');
+            if (!mapModal.classList.contains('hidden')) {
+                closeMapModal();
             }
         }
     });

@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="assets/images/gtm-logo-2025-300x300.png" />
     <meta name="msapplication-TileImage" content="assets/images/gtm-logo-2025-300x300.png" />
     <link href="assets/css/leaflet-1.8.0.css" rel="stylesheet" />
-    <link media="all" href="assets/css/style.css?v=18" rel="stylesheet">
+    <link media="all" href="assets/css/style.css?v=19" rel="stylesheet">
 </head>
 
 <body class="index">
@@ -80,12 +80,22 @@
                 <div id="openseadragon-viewer"></div>
             </div>
         </div>
+
+        <!-- Fullscreen Map Modal -->
+        <div id="map-modal" class="iiif-modal hidden">
+            <div class="iiif-modal-overlay"></div>
+            <div class="iiif-modal-content">
+                <button id="map-close-btn" class="iiif-close-btn" aria-label="Sluiten">×</button>
+                <div id="map-caption" class="iiif-origin-btn map-caption"></div>
+                <div id="street-map-full"></div>
+            </div>
+        </div>
     </div>
 
     <script src="assets/js/leaflet-1.8.0.js"></script>
     <script src="assets/js/openseadragon.min.js"></script>
-    <script src="assets/js/geo.js?v=18"></script>
-    <script src="assets/js/main.js?v=18"></script>
+    <script src="assets/js/geo.js?v=19"></script>
+    <script src="assets/js/main.js?v=19"></script>
 
 </body>
 
