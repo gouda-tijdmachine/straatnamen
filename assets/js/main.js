@@ -167,6 +167,7 @@ function fetchAfbeeldingen(straatidentifier) {
 
                     // Add click handler to open modal
                     container.addEventListener('click', () => {
+                        lastOpenedTile = container;
                         openIIIFModal(afbeelding, afbeelding.vervaardiger, afbeelding.datering);
                     });
 
@@ -418,6 +419,27 @@ function resetTimer() {
     }, timeout);
 }
 
+// Experiment: tegel <-> fullscreen morf-animatie via de View Transitions API
+let lastOpenedTile = null;
+
+function tileTransition(fromEl, toEl, updateFn) {
+    if (!document.startViewTransition || !fromEl || !toEl
+        || !document.contains(fromEl) || !document.contains(toEl)) {
+        updateFn();
+        return;
+    }
+    fromEl.style.viewTransitionName = 'tile-zoom';
+    const transition = document.startViewTransition(() => {
+        fromEl.style.viewTransitionName = '';
+        updateFn();
+        toEl.style.viewTransitionName = 'tile-zoom';
+    });
+    transition.finished.finally(() => {
+        fromEl.style.viewTransitionName = '';
+        toEl.style.viewTransitionName = '';
+    });
+}
+
 // Street map tile & fullscreen map modal
 let streetTileMap = null;
 let mapModalMap = null;
@@ -486,27 +508,33 @@ function openMapModal() {
 
     caption.innerText = currentStreetName || '';
 
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    lastOpenedTile = document.querySelector('#fotos .map-tile');
 
-    if (mapModalMap) {
-        mapModalMap.remove();
-        mapModalMap = null;
-    }
+    tileTransition(lastOpenedTile, modal.querySelector('.iiif-modal-content'), () => {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
 
-    mapModalMap = buildStreetMap('street-map-full', currentStreetGeometry, currentStreetType, { interactive: true });
+        if (mapModalMap) {
+            mapModalMap.remove();
+            mapModalMap = null;
+        }
+
+        mapModalMap = buildStreetMap('street-map-full', currentStreetGeometry, currentStreetType, { interactive: true });
+    });
 }
 
 function closeMapModal() {
     const modal = document.getElementById('map-modal');
 
-    modal.classList.add('hidden');
-    document.body.style.overflow = '';
+    tileTransition(modal.querySelector('.iiif-modal-content'), lastOpenedTile, () => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
 
-    if (mapModalMap) {
-        mapModalMap.remove();
-        mapModalMap = null;
-    }
+        if (mapModalMap) {
+            mapModalMap.remove();
+            mapModalMap = null;
+        }
+    });
 }
 
 // IIIF Modal & OpenSeadragon Integration
@@ -522,6 +550,8 @@ function openIIIFModal(foto, maker, datering) {
     if (maker) {
         vervaardiger.innerText = "Gemaakt door " + maker + (datering ? " in " + datering.substring(0, 4) : "");
     }
+    tileTransition(lastOpenedTile, modal.querySelector('.iiif-modal-content'), () => {
+
     // Show modal
     modal.classList.remove('hidden');
 
@@ -574,21 +604,25 @@ function openIIIFModal(foto, maker, datering) {
     originBtn.onclick = () => {
         window.open(foto.url, 'samh');
     };
+
+    });
 }
 
 function closeIIIFModal() {
     const modal = document.getElementById('iiif-modal');
 
-    modal.classList.add('hidden');
+    tileTransition(modal.querySelector('.iiif-modal-content'), lastOpenedTile, () => {
+        modal.classList.add('hidden');
 
-    document.body.style.overflow = '';
+        document.body.style.overflow = '';
 
-    if (osdViewer) {
-        osdViewer.destroy();
-        osdViewer = null;
-    }
+        if (osdViewer) {
+            osdViewer.destroy();
+            osdViewer = null;
+        }
 
-    document.getElementById('openseadragon-viewer').innerHTML = '';
+        document.getElementById('openseadragon-viewer').innerHTML = '';
+    });
 }
 
 // Initialize everything when DOM is ready

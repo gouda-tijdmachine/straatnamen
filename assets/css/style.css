@@ -413,6 +413,19 @@ input[type="radio"] {
   animation: fadeIn 0.2s ease-out;
 }
 
+/* Experiment: tegel <-> fullscreen morf (View Transitions API) */
+::view-transition-group(tile-zoom) {
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Geen dubbele fade wanneer de browser view transitions ondersteunt */
+@supports (view-transition-name: none) {
+  .iiif-modal:not(.hidden) {
+    animation: none;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
